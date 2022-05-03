@@ -22,10 +22,10 @@
         <tbody>
             @foreach($paises as $pais => $infopais)
                 <tr>
-                    <td rowspan="{{ count($infopais['ciudades']) }}">
+                    <td class="text-primary" rowspan="{{ count($infopais['ciudades']) }}">
                         {{ $pais }}
                     </td>
-                    <td rowspan="{{ count($infopais['ciudades']) }}">
+                    <td class="text-info" rowspan="{{ count($infopais['ciudades']) }}">
                         {{$infopais["capital"] }}
                     </td>
                     <td rowspan="{{ count($infopais['ciudades']) }}">
@@ -36,7 +36,7 @@
                     </td>
                     @foreach($infopais["ciudades"] as $ciudad )
 
-                    <th>
+                    <th class="p-3 mb-2 bg-primary text-white">
                         {{$ciudad}}
                     </th>
                 </tr>
