@@ -50,7 +50,8 @@ Route::get('paises' , function()
             [
                 "Aregua",
                 "Caacupe",
-                "Encarnacio"
+                "Encarnacio",
+                "Suba"
             ]
         ]
     ];
