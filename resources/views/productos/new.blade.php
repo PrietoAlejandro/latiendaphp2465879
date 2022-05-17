@@ -7,8 +7,8 @@
     </h1>
     </div>
         <div class="row">
-    <form class='col s8' method="POST" action="">
-
+    <form class='col s8' method="POST" action="{{ url('productos') }}">
+        @csrf
             <div class="row">
                 <div class="input-field col s8">
                     <input placeholder="Nombre producto" type="text" id="nombre" name="nombre">
@@ -27,12 +27,37 @@
                     <input placeholder="Precio del producto" type="text" id="precio" name="precio">
                     <label for="precio">Precio del producto</label>
             </div>
+
+            <div class="row">
+                <div class="col s8 input-field">
+                    <select name="marca" id="marca">
+                        @foreach($marcas as $marca)
+                        <option value="{{$marca->id}}">{{ $marca->nombre }}</option>
+                        @endforeach
+                    </select>
+                    <label for="marca">Marca</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s8 input-field">
+                    <select name="categorias" id="categorias">
+                        @foreach($categorias as $categorias)
+                        <option value="{{ $categorias->id }}">
+                            {{ $categorias->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <label for="marca">Categorias</label>
+                </div>
+            </div>
+
                 </div>  
                 <div class="row">
-                    <div class="file-input input-field col s8">
-                        <div class="btn">
+                    <div class="file-field input-field col s8">
+                        <div class="btn cyan darken-2">
                             <span>Imagen...</span>
-                            <input type="file" >
+                            <input type="file" name="imagen">
                         </div>
                         <div class="file-path-wrapper">
                         <input class="file-path validate" type="text">

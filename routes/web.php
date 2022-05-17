@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,3 +66,8 @@ Route::get('prueba', function()
 {
     return view('productos.new');
 });
+
+//RUTAS REST
+//PRODUCTO
+
+Route::resource('productos', ProductoController::class);
