@@ -48,7 +48,7 @@ class ProductoController extends Controller
         $p->desc = $r->desc;
         $p->precio = $r->precio;
         $p->marca_id = $r->marca;
-        $p->categoria_id = $r->categoria;
+        $p->categoria_id = $r->categorias;
         //grabar el nuevo producto
         $p->save();
         echo "Producto creado";
