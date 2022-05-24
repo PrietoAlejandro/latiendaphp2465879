@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductoController extends Controller
 {
@@ -41,17 +42,54 @@ class ProductoController extends Controller
      */
     public function store(Request $r)
     {
-        //crear entidad producto:
-        $p = new Producto;
-        //asignar valores a atributos del nuevo producto
-        $p->nombre = $r->nombre;
-        $p->desc = $r->desc;
-        $p->precio = $r->precio;
-        $p->marca_id = $r->marca;
-        $p->categoria_id = $r->categorias;
-        //grabar el nuevo producto
-        $p->save();
-        echo "Producto creado";
+        //DEFINIR REGLAS DE VALIDACION
+        $reglas = 
+        [
+            "nombre" => 'required|alpha',
+            "desc" => 'required|min:10|max:50',
+            "precio" => 'required|numeric',
+            "marca" => 'required',
+            "categoria" => 'required'
+        ];
+
+        //mensajes personalizados
+        $mensajes = 
+        [
+            "required" => "Campo Obligatorio",
+            "numeric" => "Solo Numeros",
+            "alpha" => "Solo letras"
+        ];
+
+        $v = Validator::make($r->all() , $reglas, $mensajes);
+
+        if($v->fails())
+        {
+            //validacion fallida
+            //redireccionar al formulario de nuevo producto 
+            return redirect('productos/create')
+                            ->withErrors($v)->withInput();
+        }else
+        {
+            //validacion correcta
+
+            //crear entidad producto:
+            $p = new Producto;
+                //asignar valores a atributos del nuevo producto
+                $p->nombre = $r->nombre;
+                $p->desc = $r->desc;
+                $p->precio = $r->precio;
+                $p->marca_id = $r->marca;
+                $p->categoria_id = $r->categorias;
+                //grabar el nuevo producto
+                $p->save();
+
+                //REDIRECCIONAR A LA RUTA : CREATE 
+                return redirect('productos/create')
+                ->with('mensaje', 'Producto creado');
+                echo "Producto creado";
+        }
+
+        
     }
 
     /**
