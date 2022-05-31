@@ -45,11 +45,12 @@ class ProductoController extends Controller
         //DEFINIR REGLAS DE VALIDACION
         $reglas = 
         [
-            "nombre" => 'required|alpha',
+            "nombre" => 'required|alpha|unique:productos,nombre',
             "desc" => 'required|min:10|max:50',
             "precio" => 'required|numeric',
             "marca" => 'required',
-            "categoria" => 'required'
+            "categoria" => 'required',
+            "imagen" => 'required|image'
         ];
 
         //mensajes personalizados
@@ -57,7 +58,11 @@ class ProductoController extends Controller
         [
             "required" => "Campo Obligatorio",
             "numeric" => "Solo Numeros",
-            "alpha" => "Solo letras"
+            "alpha" => "Solo letras",
+            "min" => "Solo permitido minimo 10 letras",
+            "max" => "Solo permitido maximo 10 letras",
+            "imagen" => "Solo permitido imagenes",
+            "unique" => "Campo ya existe "
         ];
 
         $v = Validator::make($r->all() , $reglas, $mensajes);
@@ -70,6 +75,14 @@ class ProductoController extends Controller
                             ->withErrors($v)->withInput();
         }else
         {
+            //ASIGNAR A LA VARIABLE NOMBRE_ARCHIVO
+
+            $nombre_archivo = $r->imagen->getClientOriginalName();
+            $archivo = $r->imagen;
+            //MOVER EL ARCHIVO EN LA CARPETA PUBLIC 
+            var_dump(public_path());
+            $ruta = public_path().'/img';
+            $archivo->move($ruta, $nombre_archivo);
             //validacion correcta
 
             //crear entidad producto:
@@ -78,18 +91,17 @@ class ProductoController extends Controller
                 $p->nombre = $r->nombre;
                 $p->desc = $r->desc;
                 $p->precio = $r->precio;
+                $p->imagen = $nombre_archivo;
                 $p->marca_id = $r->marca;
-                $p->categoria_id = $r->categorias;
+                $p->categoria_id = $r->categoria;
                 //grabar el nuevo producto
                 $p->save();
 
                 //REDIRECCIONAR A LA RUTA : CREATE 
                 return redirect('productos/create')
                 ->with('mensaje', 'Producto creado');
-                echo "Producto creado";
-        }
-
-        
+                
+        }        
     }
 
     /**

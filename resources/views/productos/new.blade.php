@@ -12,7 +12,8 @@
     </h1>
     </div>
         <div class="row">
-    <form class='col s8' method="POST" action="{{ url('productos') }}">
+    <form class='col s8' method="POST" action="{{ url('productos') }}" enctype="multipart/form-data">
+
         @csrf
             <div class="row">
                 <div class="input-field col s8">
@@ -37,32 +38,34 @@
             </div>
 
             <div class="row">
-                <div class="col s8 input-field">
-                    <select name="marca" id="marca">
-                        <option value="">Elije Marca</option>
-                        @foreach($marcas as $marca)
-                        <option value="{{$marca->id}}">{{ $marca->nombre }}</option>
-                        @endforeach
-                    </select>
-                    <label for="marca">Marca</label>
-                    <span> {{ $errors->first('marca') }}</span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col s8 input-field">
-                    <select name="categorias" id="categorias">
-                    <option value="">Elije Categoria</option>
-                        @foreach($categorias as $categorias)
-                        <option value="{{ $categorias->id }}">
-                            {{ $categorias->nombre }}
+            <div class="col s8 input-field">
+                <select name="marca" id="marca">
+                    <option value="">Elija marca</option>
+                    @foreach($marcas as $marca)
+                        <option value="{{ $marca->id }}">
+                            {{ $marca->nombre }}
                         </option>
-                        @endforeach
-                    </select>
-                    <label for="categoria">Categorias</label>
-                    <span> {{ $errors->first('categoria') }}</span>
-                </div>
+                    @endforeach
+                </select>
+                <label for="marca">Marca</label>
+                <span class="blue-text text-accent-1">{{ $errors->first('marca') }}</span>
             </div>
+        </div>
+
+        <div class="row">
+            <div class="col s8 input-field">
+                <select name="categoria" id="categoria">
+                <option value="">Elija Categoria</option>
+                    @foreach($categorias as $categoria)
+                        <option value="{{ $categoria->id }}">
+                            {{ $categoria->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+                <label for="categoria">Categoria</label>
+                <span class="blue-text text-accent-1">{{ $errors->first('categoria') }}</span>
+            </div>
+        </div>
 
                 </div>  
                 <div class="row">
@@ -74,6 +77,7 @@
                         <div class="file-path-wrapper">
                         <input class="file-path validate" type="text">
                         </div>
+                        <span>{{ $errors->first('imagen') }}</span>
                     </div>                    
                 </div>
                 <div class="row">
